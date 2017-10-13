@@ -1,0 +1,21 @@
+{
+    "name": "sndwow/yii2-rest-query-helper",
+    "description": "扩展yii2的rest功能，使其支持更多的参数",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "BSD-4-Clause",
+    "authors": [
+        {
+            "name": "sndwow",
+            "email": "thmod@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "sndwow\\rest\\": ""
+        }
+    }
+}
