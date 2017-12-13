@@ -1,6 +1,6 @@
 概述
 ------
-该扩展强化了Yii Restful查询。
+该扩展强化了Yii Restful查询。**支持无线级关联**
 
 在关联查询数据时不是每次都回表查询，而是使用了with加载关联数据，由yii进行数据关系匹配，减少对数据库的访问。
 
@@ -117,7 +117,7 @@ composer require sndwow/yii2-rest-query-helper
 
 使用
 -----
-- 首先所有AR Model 继承 sndwow\rest\ActiveRecord 使其强化关联能力
+- 所有关联 AR Model 需继承 sndwow\rest\ActiveRecord 使其强化关联能力
 
 - 在控制器中指定 serializer 为 sndwow\rest\Serializer
 ```php
