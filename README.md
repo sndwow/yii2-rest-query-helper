@@ -107,7 +107,7 @@ composer require sndwow/yii2-rest-query-helper
   'sndwow/yii2-rest-query-helper' => 
   array (
     'name' => 'sndwow/yii2-rest-query-helper',
-    'version' => '1.0.1.0',
+    'version' => '1.0.0.0',
     'alias' => 
     array (
       '@sndwow/rest' => $vendorDir . '/sndwow/yii2-rest-query-helper',
