@@ -5,6 +5,7 @@
  * date: 2017/09/27 18:06
  * version: 1.0
  */
+
 namespace sndwow\rest;
 
 use yii\helpers\ArrayHelper;
@@ -17,7 +18,12 @@ class ActiveRecord extends \yii\db\ActiveRecord
     {
         $data = [];
         $expandKeys = array_keys($expand);
-        $_fields = isset($fields['_fields']) ? $fields['_fields'] : [];
+        $_fields = [];
+        foreach ($fields as $item) {
+            if (is_string($item)) {
+                $_fields[] = $item;
+            }
+        }
         
         foreach ($this->resolveFields($_fields, $expandKeys) as $field => $definition) {
             $data[$field] = is_string($definition) ? $this->$definition : call_user_func($definition, $this, $field);

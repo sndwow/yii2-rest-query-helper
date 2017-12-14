@@ -34,11 +34,12 @@ class serializer extends \yii\rest\Serializer
         foreach ($arr as $item) {
             $pairs = explode('.', $item);
             if (count($pairs) === 1) {
-                $fields['_fields'][] = $item;
+                $fields[] = $item;
             } else {
                 $fields = ArrayHelper::merge($fields, $this->inlineFields($pairs));
             }
         }
+        \Yii::warning($fields);
         return $fields;
     }
     
@@ -48,7 +49,7 @@ class serializer extends \yii\rest\Serializer
         $val = array_shift($arr);
         if (!is_null($val)) {
             if (count($arr) === 1) {
-                $data[$val]['_fields'][] = $arr[0];
+                $data[$val][] = $arr[0];
             } else {
                 $data[$val] = $this->inlineFields($arr);
             }

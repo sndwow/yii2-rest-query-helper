@@ -1,6 +1,6 @@
 概述
 ------
-该扩展强化了Yii Restful查询。**支持无限级关联**
+该扩展强化了Yii Restful查询。**支持无线级关联**
 
 在关联查询数据时不是每次都回表查询，而是使用了with加载关联数据，由yii进行数据关系匹配，减少对数据库的访问。
 
@@ -107,7 +107,7 @@ composer require sndwow/yii2-rest-query-helper
   'sndwow/yii2-rest-query-helper' => 
   array (
     'name' => 'sndwow/yii2-rest-query-helper',
-    'version' => '1.0.0.0',
+    'version' => '1.0.1.0',
     'alias' => 
     array (
       '@sndwow/rest' => $vendorDir . '/sndwow/yii2-rest-query-helper',
@@ -152,6 +152,89 @@ class UserController extends \yii\rest\Controller
         
         // 使用此方式返回可以被sndwow\rest\Serializer进行处理
         // 同时也支持yii model 里的 fields，可自定义返回字段及数据
+        return new ActiveDataProvider([
+            'query' => $query
+        ]);
+    }
+}
+```
+例子：
+
+继承 yii\rest\ActiveController 用法
+```php
+namespace app\modules\v1\controllers;
+
+use app\modules\v1\models\Category;
+use app\modules;
+use sndwow\rest\QueryHelper;
+use yii\data\ActiveDataProvider;
+use yii\rest\ActiveController;
+
+class CategoryController extends ActiveController
+{
+    public $modelClass = 'app\modules\v1\models\Category';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index']);
+        return $actions;
+    }
+    public function actionIndex()
+    {
+        $this->serializer = 'sndwow\rest\Serializer';
+        $rules = [
+            'sort' => [
+                'id',
+                'create_time',
+                'items.markets.update_time'
+            ],
+            'where' => [
+                'id' => '*',
+                'name' => ['like', 'eq'],
+                'items.name' => ['like'],
+            ]
+        ];
+        $helper = new QueryHelper(Category::className());
+        $query = $helper->build($rules);
+        return new ActiveDataProvider([
+            'query' => $query
+        ]);
+    }
+}
+```
+
+继承 yii\rest\Controller 用法
+```php
+namespace app\modules\v1\controllers;
+
+use app\modules\v1\models\Category;
+use app\modules;
+use sndwow\rest\QueryHelper;
+use yii\data\ActiveDataProvider;
+use yii\rest\Controller;
+
+class CategoryController extends Controller
+{
+    public $modelClass = 'app\modules\v1\models\Category';
+
+    public function actionIndex()
+    {
+        $this->serializer = 'sndwow\rest\Serializer';
+        $rules = [
+            'sort' => [
+                'id',
+                'create_time',
+                'items.markets.update_time'
+            ],
+            'where' => [
+                'id' => '*',
+                'name' => ['like', 'eq'],
+                'items.name' => ['like'],
+            ]
+        ];
+        $helper = new QueryHelper(Category::className());
+        $query = $helper->build($rules);
         return new ActiveDataProvider([
             'query' => $query
         ]);
